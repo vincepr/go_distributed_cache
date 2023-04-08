@@ -16,7 +16,7 @@ type Command string
 // all supported Key Keywords
 const(
 	CMDSet Command = "SET"
-	CMDGET Command = "GET"
+	CMDGet Command = "GET"
 )
 
 
@@ -26,6 +26,20 @@ type Message struct{
 	Value 	[]byte
 	TTL 	time.Duration
 	
+}
+
+func (m *Message) ToBytes() []byte{
+	switch m.Cmd{
+	case CMDSet:
+		cmd := []byte(fmt.Sprintf("%s %s %s %s", m.Cmd, m.Key, m.Value, m.TTL))
+		return []byte(cmd)
+	case CMDGet:
+		cmd := []byte(fmt.Sprintf("%s %s", m.Cmd, m.Key))
+		return []byte(cmd)
+	default:
+		panic("unknown command :todo")
+	}
+
 }
 
 // parses our recieved bytes for our custom command syntax

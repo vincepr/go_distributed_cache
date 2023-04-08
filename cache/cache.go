@@ -2,6 +2,7 @@ package cache
 
 import (
 	"fmt"
+	"log"
 	"sync"
 	"time"
 )
@@ -22,6 +23,7 @@ func (c *Cache) Set(key, val []byte, ttl time.Duration) error{
 	defer c.lock.Unlock()
 
 	c.data[string(key)] = val
+	log.Printf("Set() key:[%s] to %s \n", string(key), string(val))				//:todo is for testing only
 
 	// time to live implementation:
 	go func(){
@@ -37,8 +39,10 @@ func (c *Cache) Set(key, val []byte, ttl time.Duration) error{
 func (c *Cache) Get(key[]byte) ([]byte, error){
 	c.lock.RLock()
 	defer c.lock.RUnlock()
+	log.Printf("Get() key:[%s] \n", string(key))								//:todo is for testing only
 	val, ok := c.data[string(key)] 
 	if ok{
+		log.Printf("Get() key:[%s] result is %s \n", string(key), string(val))	//:todo is for testing only
 		return val, nil
 	}
 	return nil, fmt.Errorf("key %s not found\n", string(key))
