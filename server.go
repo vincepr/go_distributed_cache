@@ -63,6 +63,11 @@ func (s *Server) handleConnection(con net.Conn){
 	fmt.Println("connection made with:", con.RemoteAddr())
 
 	buf := make([]byte, 2048)		// 2048 max size of our buffer
+
+	if s.IsLeader {
+		s.followers[con] = struct{}{}
+	}
+
 	for {
 		n, err := con.Read(buf)
 		if err != nil {

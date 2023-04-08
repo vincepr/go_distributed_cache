@@ -31,7 +31,7 @@ type Message struct{
 func (m *Message) ToBytes() []byte{
 	switch m.Cmd{
 	case CMDSet:
-		cmd := []byte(fmt.Sprintf("%s %s %s %s", m.Cmd, m.Key, m.Value, m.TTL))
+		cmd := []byte(fmt.Sprintf("%s %s %s %d", m.Cmd, m.Key, m.Value, m.TTL))
 		return []byte(cmd)
 	case CMDGet:
 		cmd := []byte(fmt.Sprintf("%s %s", m.Cmd, m.Key))

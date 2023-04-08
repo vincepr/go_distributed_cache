@@ -3,13 +3,22 @@ package main
 import (
 	"flag"
 
-
 	"github.com/vincepr/go_distributed_cache/cache"
 )
 
 
 func main(){
-	
+	// // TestingONLY: checking if the set command gets forwarded from the leader to the followers
+	// connetion, err := net.Dial("tcp", ":6666")
+	// if err != nil{
+	// 	log.Fatal(err)
+	// }
+	// _, err = connetion.Write([]byte("SET Foo Bar 99999999"))
+	// if err != nil{
+	// 	log.Fatal(err)
+	// }
+	// return
+
 	var(
 		listenAddr = flag.String("listen", "5555", "listen port of the service")
 		leaderAddr = flag.String("leaderaddr", "", "listen adress of the leader")
@@ -43,7 +52,5 @@ func main(){
 	// our hard coded leader server
 	server := NewServer(options, cache.NewCache())
 	server.Start()
-
-	// not working, at 2:27:12  https://www.youtube.com/watch?v=sRXIRikME14
 	
 }
